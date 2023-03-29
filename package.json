@@ -1,0 +1,32 @@
+{
+  "name": "graphql-react-event-booking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohanmaharjan27/graphQL-react-event-booking.git"
+  },
+  "author": "Rohan Maharjan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohanmaharjan27/graphQL-react-event-booking/issues"
+  },
+  "homepage": "https://github.com/rohanmaharjan27/graphQL-react-event-booking#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.22"
+  }
+}
