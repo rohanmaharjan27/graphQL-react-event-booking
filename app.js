@@ -3,12 +3,12 @@ import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
+import mongoose from 'mongoose';
+import Event from './models/event.js';
 
 dotenv.config();
 
 const app = express();
-
-const events = [];
 
 app.use(bodyParser.json());
 app.use(
@@ -44,20 +44,33 @@ app.use(
     }
   `),
     rootValue: {
-      events: () => events,
+      events: () =>
+        Event.find()
+          .then((eventArr) =>
+            eventArr.map((event) => ({ ...event._doc, _id: event._doc._id.toString() })),
+          )
+          .catch((err) => {
+            throw err;
+          }),
+
       createEvent: ({ eventInput }) => {
         const { title, description, price, date } = eventInput;
 
-        const event = {
-          _id: Math.random().toString(),
+        const newEvent = {
           title,
           description,
           price: +price,
-          date,
+          date: new Date(date),
         };
 
-        events.push(event);
+        const event = new Event(newEvent);
 
+        event
+          .save()
+          .then((result) => ({ ...result._doc, _id: event.id }))
+          .catch((err) => {
+            console.log(err);
+          });
         return event;
       },
     },
@@ -65,6 +78,13 @@ app.use(
   }),
 );
 
-app.listen(process.env.PORT, () => {
-  console.log(`Started at ${process.env.PORT}`);
-});
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.dzsue.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+  )
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`Started at ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));

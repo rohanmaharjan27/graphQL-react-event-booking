@@ -15,6 +15,10 @@
     "quotes": "warn",
     "no-unused-vars": "error",
     "max-len": "error",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "import/extensions": [0, { "<js>": "always" }],
+    "no-underscore-dangle": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }
